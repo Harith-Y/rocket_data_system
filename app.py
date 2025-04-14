@@ -68,19 +68,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    if current_user.is_authenticated:
-        if current_user.role == 'admin':
-            return redirect(url_for('admin_dashboard'))
-        return redirect(url_for('dashboard'))
-    try:
-        # Using SQLAlchemy instead of direct cursor
-        trending_rockets = db.session.execute(
-            db.text("SELECT id, name, type, country, status, image_path, description FROM rockets ORDER BY created_at DESC LIMIT 5")
-        ).fetchall()
-    except Exception as e:
-        app.logger.error(f"Error fetching trending rockets: {e}")
-        trending_rockets = []
-    return render_template('index.html', trending_rockets=trending_rockets)
+    return "Hello"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

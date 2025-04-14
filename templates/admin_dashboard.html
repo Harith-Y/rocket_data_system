@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - Rocket Data System{% endblock %}
+{% block content %}
+<div class="card">
+    <h3>Admin Dashboard</h3>
+    <div class="stats">
+        <div class="stat-card">
+            <h5>Users</h5>
+            <p>{{ user_count }}</p>
+        </div>
+        <div class="stat-card">
+            <h5>Rockets</h5>
+            <p>{{ rocket_count }}</p>
+        </div>
+        <div class="stat-card">
+            <h5>Contact Messages</h5>
+            <p>{{ message_count }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

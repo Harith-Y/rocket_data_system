@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Contact - Rocket Data System{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Contact Us</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="message">Message <span style="color: #ff4081;">*</span></label>
+            <textarea id="message" name="message" rows="5" required placeholder="Your message..."></textarea>
+        </div>
+        <button type="submit" class="btn">Send</button>
+    </form>
+</div>
+{% endblock %}

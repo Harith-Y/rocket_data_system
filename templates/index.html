@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Rocket Data System{% endblock %}
+{% block content %}
+<div class="card">
+    <h3>Welcome to Rocket Data System</h3>
+    <p>Explore and submit rocket data, share thoughts, and gain insights!</p>
+    {% if trending_rockets %}
+        <h4>Trending Rockets</h4>
+        <div class="stats">
+            {% for rocket in trending_rockets %}
+                <div class="stat-card">
+                    <h5>{{ rocket[1] }}</h5>
+                    <p>Type: {{ rocket[2] or 'N/A' }}</p>
+                    <p>Country: {{ rocket[3] or 'N/A' }}</p>
+                    <p>Status: {{ rocket[4] or 'N/A' }}</p>
+                    {% if rocket[5] %}
+                        <img src="{{ url_for('static', filename=rocket[5]) }}" alt="{{ rocket[1] }}" width="100">
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No trending rockets yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

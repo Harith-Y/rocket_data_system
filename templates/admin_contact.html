@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Contact Messages - Rocket Data System{% endblock %}
+{% block content %}
+<div class="card">
+    <h3>Contact Messages</h3>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="thought">
+                <p><strong>{{ message[2] or 'Anonymous' }}</strong> <small>{{ message[1].strftime('%Y-%m-%d %H:%M') }}</small></p>
+                <p>{{ message[0] }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No messages available.</p>
+    {% endif %}
+</div>
+{% endblock %}

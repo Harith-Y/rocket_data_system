@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Profile - Rocket Data System{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Profile</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">Username <span style="color: #ff4081;">*</span></label>
+            <input type="text" id="username" name="username" value="{{ current_user.username }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email <span style="color: #ff4081;">*</span></label>
+            <input type="email" id="email" name="email" value="{{ email }}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">New Password (leave blank to keep current)</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <button type="submit" class="btn">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

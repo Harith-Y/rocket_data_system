@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Login - Rocket Data System{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Login</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">Username <span style="color: #ff4081;">*</span></label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password <span style="color: #ff4081;">*</span></label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label>Role <span style="color: #ff4081;">*</span></label>
+            <label><input type="radio" name="role" value="user" checked> User</label>
+            <label><input type="radio" name="role" value="admin"> Admin</label>
+        </div>
+        <button type="submit" class="btn">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+</div>
+{% endblock %}

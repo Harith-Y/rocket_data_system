@@ -406,7 +406,11 @@ def contact():
             flash('Error sending message', 'danger')
         return redirect(url_for('contact'))
     return render_template('contact.html')
-
+    
+@app.route('/health')
+def health():
+    return jsonify({"status": "ok"}), 200
+    
 @app.route('/logout')
 @login_required
 def logout():

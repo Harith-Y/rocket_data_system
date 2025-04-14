@@ -19,17 +19,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Make the setup script executable
-RUN chmod +x setup.sh
-
-# Run the setup script
-RUN ./setup.sh
+# Make sure the upload directory exists
+RUN mkdir -p static/uploads
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
+ENV FLASK_APP=app.py
 
-# Expose the port
+# Expose the port (Railway will override with $PORT)
 EXPOSE 8000
 
-# Start the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+# Start command that explicitly uses the PORT environment variable
+CMD gunicorn --bind 0.0.0.0:${PORT:-8000} app:app

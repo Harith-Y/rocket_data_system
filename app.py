@@ -17,10 +17,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'rocket_app_key')
 
 # Database configuration
-db_user = os.environ.get('MYSQL_USER', 'rocket_user')
-db_password = os.environ.get('MYSQL_PASSWORD', 'RocketUser123!')
-db_host = os.environ.get('MYSQL_HOST', 'localhost')
-db_name = os.environ.get('MYSQL_DB', 'rocket_data_system')
+db_user = os.environ.get('MYSQLUSER', 'rocket_user')
+db_password = os.environ.get('MYSQLPASSWORD', 'RocketUser123!')
+db_host = os.environ.get('MYSQLHOST', 'localhost')
+db_name = os.environ.get('MYSQLDATABASE', 'rocket_data_system')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{db_user}:{db_password}@{db_host}/{db_name}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

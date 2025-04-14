@@ -9,11 +9,12 @@ from mysql.connector.errors import IntegrityError, OperationalError
 app = Flask(__name__)
 
 # Flask configuration
-app.config['SECRET_KEY'] = 'rocket_app_key'
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'rocket_user'
-app.config['MYSQL_PASSWORD'] = 'RocketUser123!'
-app.config['MYSQL_DB'] = 'rocket_data_system'
+# Flask configuration
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'rocket_app_key')
+app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'rocket_user')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'RocketUser123!')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'rocket_data_system')
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -404,4 +405,5 @@ def logout():
 
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)

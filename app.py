@@ -23,10 +23,10 @@ def get_db_uri():
     max_retries = 5
     retry_delay = 2  # seconds
     
-    db_user = os.environ.get('MYSQL_USER', 'rocket_user')
-    db_password = os.environ.get('MYSQL_PASSWORD', 'RocketUser123!')
-    db_host = os.environ.get('MYSQL_HOST', 'localhost')
-    db_name = os.environ.get('MYSQL_DB', 'rocket_data_system')
+    db_user = os.environ.get('MYSQLUSER', 'rocket_user')
+    db_password = os.environ.get('MYSQLPASSWORD', 'RocketUser123!')
+    db_host = os.environ.get('MYSQLHOST', 'localhost')
+    db_name = os.environ.get('MYSQLDATABASE', 'rocket_data_system')
     
     for attempt in range(max_retries):
         try:
@@ -89,19 +89,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    if current_user.is_authenticated:
-        if current_user.role == 'admin':
-            return redirect(url_for('admin_dashboard'))
-        return redirect(url_for('dashboard'))
-    try:
-        # Using SQLAlchemy instead of direct cursor
-        trending_rockets = db.session.execute(
-            db.text("SELECT id, name, type, country, status, image_path, description FROM rockets ORDER BY created_at DESC LIMIT 5")
-        ).fetchall()
-    except Exception as e:
-        app.logger.error(f"Error fetching trending rockets: {e}")
-        trending_rockets = []
-    return render_template('index.html', trending_rockets=trending_rockets)
+    return "Hello"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -465,5 +453,5 @@ def logout():
 
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('MYSQLPORT', 8000))
     app.run(host='0.0.0.0', port=port)

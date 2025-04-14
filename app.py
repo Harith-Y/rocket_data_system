@@ -5,17 +5,28 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import logging
 from mysql.connector.errors import IntegrityError, OperationalError
+import pymysql
+from flask_sqlalchemy import SQLAlchemy
+
+# Make PyMySQL work with SQLAlchemy's MySQL driver
+pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 
 # Flask configuration
-# Flask configuration
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'rocket_app_key')
-app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
-app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'rocket_user')
-app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'RocketUser123!')
-app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'rocket_data_system')
+
+# Database configuration
+db_user = os.environ.get('MYSQL_USER', 'rocket_user')
+db_password = os.environ.get('MYSQL_PASSWORD', 'RocketUser123!')
+db_host = os.environ.get('MYSQL_HOST', 'localhost')
+db_name = os.environ.get('MYSQL_DB', 'rocket_data_system')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{db_user}:{db_password}@{db_host}/{db_name}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
+db = SQLAlchemy(app)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 # Logging setup
@@ -62,10 +73,10 @@ def index():
             return redirect(url_for('admin_dashboard'))
         return redirect(url_for('dashboard'))
     try:
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT id, name, type, country, status, image_path, description FROM rockets ORDER BY created_at DESC LIMIT 5")
-        trending_rockets = cur.fetchall()
-        cur.close()
+        # Using SQLAlchemy instead of direct cursor
+        trending_rockets = db.session.execute(
+            db.text("SELECT id, name, type, country, status, image_path, description FROM rockets ORDER BY created_at DESC LIMIT 5")
+        ).fetchall()
     except Exception as e:
         app.logger.error(f"Error fetching trending rockets: {e}")
         trending_rockets = []
